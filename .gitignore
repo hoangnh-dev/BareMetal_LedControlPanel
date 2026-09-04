@@ -53,3 +53,17 @@ dkms.conf
 
 # debug information files
 *.dwo
+# Embedded Bare-Metal Output & Toolchain
+*.bin
+*.elf
+*.hex
+*.map
+*.su
+# Build directories
+build/
+bin/
+out/
+obj/
+# VS Code / IDE configs
+.vscode/
+.clang-format
