@@ -28,7 +28,8 @@ CFLAGS = $(MCU_FLAGS) \
          -Wall \
          -ffreestanding \
          -ffunction-sections \
-         -fdata-sections
+         -fdata-sections \
+         -I inc
 
 # ==== Link Flags ====
 LDFLAGS = $(MCU_FLAGS) \

@@ -1,6 +1,4 @@
-#include <stdint.h>
-
-#define RCC_APB2ENR  (*(volatile uint32_t*)0x40021018)
+#include "rcc.h"
 
 #define GPIOB_CRL    (*(volatile uint32_t*)0x40010C00)
 #define GPIOB_BSRR   (*(volatile uint32_t*)0x40010C10)
@@ -13,7 +11,7 @@ static void delay(volatile uint32_t count) {
 }
 
 int main(void) {
-    RCC_APB2ENR |= (1 << 3);         // open clock for GPIOB (bit 3 = IOPBEN)
+    RCC->RCC_APB2ENR |= (1 << 3);         // open clock for GPIOB (bit 3 = IOPBEN)
 
     GPIOB_CRL &= ~(0xFU << (2 * 4));   // reset PB2 
     GPIOB_CRL |=  (0x2U << (2 * 4));    // set PB2 = output 10MHz (0001)
