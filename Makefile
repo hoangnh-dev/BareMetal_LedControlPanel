@@ -11,8 +11,8 @@ SIZE    = arm-none-eabi-size
 MCU_FLAGS = -mcpu=cortex-m3 -mthumb
 
 # ==== Source ====
-SRCS = main.c startup.c
-OBJS = $(SRCS:%.c=$(BUILD_DIR)/%.o)
+SRCS = $(wildcard src/*.c)
+OBJS = $(addprefix $(BUILD_DIR)/, $(notdir $(SRCS:.c=.o)))
 
 # ==== Linker Script ====
 LD_SCRIPT = STM32F103C8TX.ld
@@ -51,7 +51,7 @@ $(BUILD_DIR):
 
 
 # Compile .c -> .o
-$(BUILD_DIR)/%.o: %.c | $(BUILD_DIR)
+$(BUILD_DIR)/%.o: src/%.c | $(BUILD_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 
