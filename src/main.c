@@ -8,9 +8,9 @@
 
 int main(void) {
     RCC->RCC_APB2ENR |= (1 << 3);          // open clock for GPIOB (bit 3 = IOPBEN)
-    GPIO_Init(GPIOB, 2, GPIO_MODE_OUTPUT_PP_10MHZ);
+    gpio_init(GPIOB, 2, GPIO_MODE_OUTPUT_PP_10MHZ);
     RCC->RCC_APB2ENR |= (1 << 2);          // open clock for GPIOA (bit 2 = IOPAEN)
-    button_init(GPIOA,0);
+    button_init();
     // systick_init(8000000 / 1000);  // 1ms SysTick (assuming 16MHz clock)
     // uint32_t last_toggle = 0;
     // uint8_t led_state = 0;
@@ -20,6 +20,6 @@ int main(void) {
         //     GPIO_WritePin(GPIOB, 2, led_state);
         //     last_toggle = systick_get_ticks();
         // }
-        GPIO_WritePin(GPIOB, 2, button_read(GPIOA, 0));
+        gpio_write(GPIOB, 2, button_pressed());
     }
 }

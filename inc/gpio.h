@@ -48,7 +48,8 @@ typedef enum {
 #define GPIOD  ((gpio_t *)GPIOD_BASE)
 #define GPIOE  ((gpio_t *)GPIOE_BASE)
 
-void GPIO_Init(gpio_t *port, uint8_t pin, gpio_mode_t  mode);
-void GPIO_WritePin(gpio_t *port, uint8_t pin, uint8_t value);
+void gpio_init(gpio_t *port, uint8_t pin, gpio_mode_t  mode);
+void gpio_write(gpio_t *port, uint8_t pin, uint8_t value);
+uint8_t gpio_read(gpio_t *port, uint8_t pin);
 
 #endif

@@ -1,9 +1,10 @@
 #include "button.h"
+#define btn_pin 0
 
-void button_init(gpio_t *port, uint8_t pin) {
-    GPIO_Init(port, pin, GPIO_MODE_INPUT_PUPD);   
+void button_init() {
+    gpio_init(GPIOA, btn_pin, GPIO_MODE_INPUT_PUPD);   
 }
 
-uint8_t button_read(gpio_t *port, uint8_t pin) {
-    return (port->IDR >> pin) & 1;  
+uint8_t button_pressed() {
+    return gpio_read(GPIOA, btn_pin);  
 }
