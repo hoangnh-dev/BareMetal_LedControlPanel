@@ -7,9 +7,8 @@
 #define GPIOB_BSRR   (*(volatile uint32_t*)0x40010C10)
 
 int main(void) {
-    RCC->RCC_APB2ENR |= (1 << 3);          // open clock for GPIOB (bit 3 = IOPBEN)
-    gpio_init(GPIOB, 2, GPIO_MODE_OUTPUT_PP_10MHZ);
-    RCC->RCC_APB2ENR |= (1 << 2);          // open clock for GPIOA (bit 2 = IOPAEN)
+    gpio_init(GPIOB, 2, GPIO_MODE_OUTPUT_PP_10MHZ, GPIO_BANK_B);
+
     button_init();
     // systick_init(8000000 / 1000);  // 1ms SysTick (assuming 16MHz clock)
     // uint32_t last_toggle = 0;

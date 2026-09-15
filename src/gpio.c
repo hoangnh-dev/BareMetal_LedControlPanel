@@ -1,6 +1,7 @@
 #include "gpio.h"
 
-void gpio_init(gpio_t *port, uint8_t pin, gpio_mode_t  mode){
+void gpio_init(gpio_t *port, uint8_t pin, gpio_mode_t  mode, gpio_bank_t bank){
+    RCC->RCC_APB2ENR |= (1 << bank);  
     if (pin < 8) {
         port->CRL &= ~(0xFU << (pin * 4)); 
         port->CRL |=  (mode << (pin * 4));

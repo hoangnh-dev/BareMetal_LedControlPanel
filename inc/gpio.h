@@ -1,6 +1,7 @@
 #ifndef GPIO_H
 #define GPIO_H
 #include <stdint.h>
+#include "rcc.h"
 typedef struct {
     volatile uint32_t CRL;
     volatile uint32_t CRH;
@@ -40,15 +41,21 @@ typedef enum {
 #define GPIOB_BASE  0x40010C00UL
 #define GPIOC_BASE  0x40011000UL
 #define GPIOD_BASE  0x40011400UL
-#define GPIOE_BASE  0x40011800UL
 
 #define GPIOA  ((gpio_t *)GPIOA_BASE)
 #define GPIOB  ((gpio_t *)GPIOB_BASE)
 #define GPIOC  ((gpio_t *)GPIOC_BASE)
 #define GPIOD  ((gpio_t *)GPIOD_BASE)
-#define GPIOE  ((gpio_t *)GPIOE_BASE)
 
-void gpio_init(gpio_t *port, uint8_t pin, gpio_mode_t  mode);
+typedef enum {
+    GPIO_BANK_A = 2,
+    GPIO_BANK_B,
+    GPIO_BANK_C,
+    GPIO_BANK_D,
+} gpio_bank_t;
+
+
+void gpio_init(gpio_t *port, uint8_t pin, gpio_mode_t  mode, gpio_bank_t bank);
 void gpio_write(gpio_t *port, uint8_t pin, uint8_t value);
 uint8_t gpio_read(gpio_t *port, uint8_t pin);
 
