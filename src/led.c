@@ -14,9 +14,11 @@ void led_init(void) {
 void led_set_mode(led_mode_t mode) {
 	if (mode >= LED_MODE_COUNT) return;
     currentMode = mode;
+    last_toggle = systick_get_ticks();
 }
 void led_next_mode(void) {
     currentMode = (currentMode + 1) % LED_MODE_COUNT;
+    last_toggle = systick_get_ticks();
 }
 
 void led_update_state(void){
@@ -28,7 +30,7 @@ void led_toggle(void){
     led_update_state();
 }
 void led_blink(uint32_t interval_ms){
-    if ((systick_get_ticks() - last_toggle) >= 500) {
+    if ((systick_get_ticks() - last_toggle) >= interval_ms) {
         led_toggle();
         last_toggle = systick_get_ticks();
     }
