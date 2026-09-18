@@ -1,4 +1,5 @@
 #include "systick.h"
+#include "interrupt.h"
 // 16 standard and 91 STM32-specific handlers
 #define NUM_CORE_HANDLERS 16
 #define NUM_STM32_HANDLERS 91
@@ -51,4 +52,11 @@ void (*const tab[NUM_CORE_HANDLERS + NUM_STM32_HANDLERS])(void) =
     0,                    // Reserved
     0,                    // PendSV_Handler
     systick_handler,      // SysTick
+    0,                    // IRQ0  - WWDG
+    0,                    // IRQ1  - PVD
+    0,                    // IRQ2  - TAMPER
+    0,                    // IRQ3  - RTC
+    0,                    // IRQ4  - FLASH
+    0,                    // IRQ5  - RCC
+    exti0_irq_handler,    // IRQ6  - EXTI0
 };
