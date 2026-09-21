@@ -15,5 +15,6 @@ void led_init(void);
 void led_next_mode(void);
 void led_set_mode(led_mode_t mode);
 void led_update(void);
+void led_toggle(void);
 
 #endif
