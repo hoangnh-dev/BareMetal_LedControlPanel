@@ -3,7 +3,7 @@
 
 #define uart1_tx_pin 9
 #define uart1_rx_pin 10
-#define APB2_FREQUENCY 72000000U
+#define APB2_FREQUENCY 8000000U
 
 void uart_init(uart_t *uart, unsigned long baud){
     uint32_t pclk = 0;
@@ -28,7 +28,7 @@ uint8_t uart_read_byte(uart_t *uart) {
 }
 
 void uart_write_char(uart_t *uart, char ch) {
-    while (!(uart->SR & (1U << 5))) (void)0; // Wait until TXE bit is set, indicating data register is empty
+    while (!(uart->SR & (1U << 7))) (void)0; // Wait until TXE bit is set, indicating data register is empty
     uart->DR = (uint32_t)ch;
 }
 
@@ -37,6 +37,6 @@ void uart_write_buf(uart_t *uart,const char *buf, size_t len) {
 }
 
 char uart_read_char(uart_t *uart){
-    while (!(uart->SR & (1U << 7))) (void)0; // Wait until RXNE bit is set
+    while (!(uart->SR & (1U << 5))) (void)0; // Wait until RXNE bit is set
     return (char)uart->DR;
 }
