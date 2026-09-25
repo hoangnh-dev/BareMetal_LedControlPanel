@@ -1,5 +1,5 @@
-#ifndef CMD_H_
-#define CMD_H_
+#ifndef CMD_H
+#define CMD_H
 
 #include <stdint.h>
 
