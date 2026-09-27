@@ -20,7 +20,7 @@ void uart_init(uart_t *uart, unsigned long baud);
 int uart_read_ready(uart_t *uart);
 int uart_write_ready(uart_t *uart);
 void uart_write_char(uart_t *uart, char c);
-void uart_write_buf(uart_t *uart,const char *buf, size_t len);
+void uart_write_buf(uart_t *uart,const char *buf);
 char uart_read_char(uart_t *uart);
 
 #endif

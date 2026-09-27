@@ -32,11 +32,22 @@ void uart_write_char(uart_t *uart, char ch) {
     uart->DR = (uint32_t)ch;
 }
 
-void uart_write_buf(uart_t *uart,const char *buf, size_t len) {
-    while (len-- > 0)   uart_write_char(uart, *(uint8_t *)buf++);
+void uart_write_buf(uart_t *uart,const char *buf) {
+    size_t len = 0;
+    while (buf[len] != '\0') {
+        uart_write_char(uart, buf[len]);
+        len++;
+    }
+}
+
+void uart_flush_rx(uart_t *uart) {
+    while (uart->SR & (1U << 5)) { 
+        (void)uart->DR;
+    }
 }
 
 char uart_read_char(uart_t *uart){
+    uart_flush_rx(uart);
     while (!(uart->SR & (1U << 5))) (void)0; // Wait until RXNE bit is set
     return (char)uart->DR;
 }

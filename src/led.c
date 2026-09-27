@@ -20,7 +20,6 @@ void led_set_mode(led_mode_t mode) {
 void led_next_mode(void) {
     currentMode = (currentMode + 1) % LED_MODE_COUNT;
     // last_toggle = systick_get_ticks();
-    led_update();
 }
 
 void led_update_state(void){

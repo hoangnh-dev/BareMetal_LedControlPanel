@@ -8,6 +8,8 @@
 #include "nvic.h"
 #include "timer.h"
 #include "uart.h"
+#include "cmd.h"
+#include "led_cmd.h"
 
 #define GPIOB_CRL    (*(volatile uint32_t*)0x40010C00)
 #define GPIOB_BSRR   (*(volatile uint32_t*)0x40010C10)
@@ -15,6 +17,7 @@
 static void exti_callback(void){
     if (button_pressed() == 1){
         led_next_mode();
+        led_update();
     }
 }
 
@@ -37,7 +40,7 @@ int main(void) {
 
     uart_init(USART1, 115200);
     while (1) {
-        // uart_write_char(USART1, 'A');
+        cmd_run_menu(led_table);
     }
 }
 

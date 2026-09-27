@@ -1,4 +1,5 @@
 #include "cmd.h"
+#include "uart.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,10 +17,10 @@ static uint8_t cmd_validate_select(const uint8_t* input) {
 
 void cmd_print_error(uint8_t error_code) {
     switch (error_code) {
-        case CMD_NOT_FOUND:     printf("[ERROR]: Command not found\r\n");   break;
-        case CMD_EMPTY:         printf("[ERROR]: Empty command\r\n");        break;
-        case CMD_TOO_LONG:      printf("[ERROR]: Command too long\r\n");     break;
-        case CMD_TBL_NOT_FOUND: printf("[ERROR]: Table not found\r\n");      break;
+        case CMD_NOT_FOUND:     uart_write_buf(USART1,"[ERROR]: Command not found\r\n");   break;
+        case CMD_EMPTY:         uart_write_buf(USART1,"[ERROR]: Empty command\r\n");        break;
+        case CMD_TOO_LONG:      uart_write_buf(USART1,"[ERROR]: Command too long\r\n");     break;
+        case CMD_TBL_NOT_FOUND: uart_write_buf(USART1,"[ERROR]: Table not found\r\n");      break;
         default: break;
     }
 }
@@ -27,14 +28,20 @@ void cmd_print_error(uint8_t error_code) {
 void cmd_print_menu(const cmd_t* table) {
     const cmd_t* p = table;
     uint8_t i = 1;
-    printf("====== MENU ======\r\n");
+    uart_write_buf(USART1, "====== MENU ======\r\n");
     while (p->cmd) {
-        printf("[%d] %s - %s\r\n", i, p->cmd, p->info);
+        uart_write_char(USART1, '[');
+        uart_write_char(USART1, '0' + i);
+        uart_write_char(USART1, ']');
+        uart_write_buf(USART1, p->cmd);
+        uart_write_char(USART1, '-');
+        uart_write_buf(USART1, p->info);
+        uart_write_buf(USART1, "\r\n");
         i++;
         p++;
     }
-    printf("==================\r\n");
-    printf("> Enter your selection:\r\n ");
+    uart_write_buf(USART1, "==================\r\n");
+    uart_write_buf(USART1, "> Enter your selection:\r\n ");
 }
 
 uint8_t cmd_select_menu(const cmd_t* table, uint8_t* input) {
@@ -44,7 +51,7 @@ uint8_t cmd_select_menu(const cmd_t* table, uint8_t* input) {
     uint8_t check = cmd_validate_select(input);
     if (check != CMD_SUCCESS) return check;
 
-    uint8_t index = atoi((char*)input);
+    uint8_t index = input[0] - '0';
 
     uint8_t i = 1;
     while (table->cmd) {
@@ -60,7 +67,7 @@ uint8_t cmd_select_menu(const cmd_t* table, uint8_t* input) {
 }
 uint8_t cmd_run_menu(const cmd_t* table) {
     cmd_print_menu(table);
-    uint8_t input = '0';
+    uint8_t input = uart_read_char(USART1);
     uint8_t result = cmd_select_menu(table, &input);
     cmd_print_error(result);
     return result;

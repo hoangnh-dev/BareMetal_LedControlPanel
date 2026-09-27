@@ -6,6 +6,7 @@ static int32_t cmd_led_set(uint8_t index) {
     uint8_t mode = index - 1;
     if (mode >= LED_MODE_COUNT) return CMD_INVALID;
     led_set_mode((led_mode_t)mode);
+    led_update();
     return CMD_SUCCESS;
 }
 
