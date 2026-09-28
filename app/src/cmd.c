@@ -1,8 +1,8 @@
-#include "cmd.h"
-#include "uart.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "cmd.h"
+#include "uart.h"
 
 static uint8_t cmd_validate(const cmd_t* table, const uint8_t* input) {
     if (table == NULL) return CMD_TBL_NOT_FOUND;

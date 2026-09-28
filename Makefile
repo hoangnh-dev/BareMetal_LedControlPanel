@@ -11,8 +11,9 @@ SIZE    = arm-none-eabi-size
 MCU_FLAGS = -mcpu=cortex-m3 -mthumb
 
 # ==== Source ====
-SRCS = $(wildcard src/*.c)
+SRCS = startup.c $(wildcard stm32f103c8/src/*.c) $(wildcard app/src/*.c)
 OBJS = $(addprefix $(BUILD_DIR)/, $(notdir $(SRCS:.c=.o)))
+vpath %.c stm32f103c8/src app/src
 
 # ==== Linker Script ====
 LD_SCRIPT = STM32F103C8TX.ld
@@ -29,7 +30,9 @@ CFLAGS = $(MCU_FLAGS) \
          -ffreestanding \
          -ffunction-sections \
          -fdata-sections \
-         -I inc
+         -MMD -MP \
+         -I app/inc \
+         -I stm32f103c8/inc
 
 # ==== Link Flags ====
 LDFLAGS = $(MCU_FLAGS) \
@@ -51,7 +54,7 @@ $(BUILD_DIR):
 
 
 # Compile .c -> .o
-$(BUILD_DIR)/%.o: src/%.c | $(BUILD_DIR)
+$(BUILD_DIR)/%.o: %.c | $(BUILD_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 
@@ -65,6 +68,8 @@ $(ELF): $(OBJS) $(LD_SCRIPT)
 $(BIN): $(ELF)
 	$(OBJCOPY) -O binary $< $@
 
+# Header dependency
+-include $(OBJS:.o=.d)
 
 # =========================================================
 # Clean
@@ -74,7 +79,7 @@ clean:
 	rmdir /s /q $(BUILD_DIR)
 
 
-.PHONY: all clean
+.PHONY: all clean flash
 
 
 flash:

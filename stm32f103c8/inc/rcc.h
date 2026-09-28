@@ -14,5 +14,5 @@ typedef struct {
     volatile uint32_t RCC_CSR;        // 0x24 - Control/status register
 } RCC_T;
 #define RCC_BASE  0x40021000UL // RCC base address
-#define RCC  ((RCC_T *)RCC_BASE) 
+#define RCC  ((RCC_T *)RCC_BASE)
 #endif

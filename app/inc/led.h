@@ -1,10 +1,10 @@
 #ifndef LED_H
 #define LED_H
 
-#include "gpio.h"
+#include <stdint.h>
 
 typedef enum {
-    LED_MODE_OFF = 0, //
+    LED_MODE_OFF = 0,
     LED_MODE_ON,
     LED_MODE_BLINK_SLOW,
     LED_MODE_BLINK_FAST,

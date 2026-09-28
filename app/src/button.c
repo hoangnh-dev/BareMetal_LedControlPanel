@@ -1,4 +1,6 @@
 #include "button.h"
+#include "gpio.h"
+
 #define btn_pin 0
 
 void button_init() {

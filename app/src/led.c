@@ -1,6 +1,7 @@
 #include "led.h"
 #include "systick.h"
 #include "timer.h"
+#include "gpio.h"
 
 #define led_pin 2
 
