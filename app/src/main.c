@@ -7,16 +7,20 @@
 #define GPIOB_CRL    (*(volatile uint32_t*)0x40010C00)
 #define GPIOB_BSRR   (*(volatile uint32_t*)0x40010C10)
 
-static void exti_callback(void){
+void button_action(){
     if (button_pressed() == 1){
         led_next_mode();
         led_update();
     }
 }
 
+static void exti_callback(void){
+    systick_set_callback(button_action, 10U); //Button debounce checking using delay
+}
+
 
 int main(void) {
-    // systick_init(8000000 / 1000);
+    systick_init(8000000 / 1000);
     led_init();
     button_init();
     afio_exti_select(0, GPIO_BANK_A);

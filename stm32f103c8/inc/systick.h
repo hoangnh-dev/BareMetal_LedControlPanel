@@ -1,6 +1,7 @@
 #ifndef SYSTICK_H
 #define SYSTICK_H
 #include <stdint.h>
+#include <stddef.h>
 typedef struct {
     volatile uint32_t CSR;   // Control and Status Register
     volatile uint32_t RVR;   // Reload Value Register
@@ -13,4 +14,5 @@ typedef struct {
 void systick_init(uint32_t ticks);
 void systick_handler(void);
 uint32_t systick_get_ticks(void);
+void systick_set_callback(void (*callback)(void), uint32_t delay_ms);
 #endif
